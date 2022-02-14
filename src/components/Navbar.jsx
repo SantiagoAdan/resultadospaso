@@ -12,7 +12,7 @@ const Navbar = () => {
         <ul className="navbar-nav me-auto mb-2 mb-lg-0">
         </ul>
         <form className="d-flex">
-          <input  className="form-control me-2" type="search" placeholder="Search" aria-label="Buscar por provincia..."/>
+          <input  className="form-control me-2" type="search" placeholder="Buscar por provincia" aria-label="Search"/>
           <button className="btn btn-outline-success" type="submit">Buscar</button>
         </form>
       </div>
