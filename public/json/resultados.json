@@ -1,0 +1,16 @@
+[
+    {
+       "id": 1,
+       "provincia":"TUCUMAN",
+       "partido":"FRENTE DE TODOS",
+       "porcentaje":"49,58%",
+       "votos":"479786"
+    },
+    {
+        "id": 2,
+        "provincia":"BUENOS AIRES",
+        "partido":"JUNTOS POR EL CAMBIO",
+        "porcentaje":"",
+        "votos":""
+    }
+]
