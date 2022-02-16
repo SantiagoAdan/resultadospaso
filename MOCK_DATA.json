@@ -1,0 +1,170 @@
+[
+  {
+    "id": 1,
+    "provincia": "Abruzzi",
+    "partido": "Tromp LLC",
+    "porcentaje": 55,
+    "votos": 15
+  },
+  {
+    "id": 2,
+    "provincia": "Abruzzi",
+    "partido": "Bogisich, Rutherford and Runolfsson",
+    "porcentaje": 87,
+    "votos": 44
+  },
+  {
+    "id": 3,
+    "provincia": "Abruzzi",
+    "partido": "Krajcik, Kilback and Wolff",
+    "porcentaje": 62,
+    "votos": 38
+  },
+  {
+    "id": 4,
+    "provincia": "Abruzzi",
+    "partido": "Schultz and Sons",
+    "porcentaje": 34,
+    "votos": 87
+  },
+  {
+    "id": 5,
+    "provincia": "Abruzzi",
+    "partido": "Monahan, VonRueden and Corwin",
+    "porcentaje": 62,
+    "votos": 77
+  },
+  {
+    "id": 6,
+    "provincia": "Abruzzi",
+    "partido": "Schmitt, Hermann and O'Keefe",
+    "porcentaje": 25,
+    "votos": 51
+  },
+  {
+    "id": 7,
+    "provincia": "Abruzzi",
+    "partido": "Flatley-Deckow",
+    "porcentaje": 45,
+    "votos": 15
+  },
+  {
+    "id": 8,
+    "provincia": "Abruzzi",
+    "partido": "Bergnaum and Sons",
+    "porcentaje": 35,
+    "votos": 99
+  },
+  {
+    "id": 9,
+    "provincia": "Abruzzi",
+    "partido": "Jakubowski, Reichel and Conroy",
+    "porcentaje": 56,
+    "votos": 94
+  },
+  {
+    "id": 10,
+    "provincia": "Abruzzi",
+    "partido": "Kulas-Halvorson",
+    "porcentaje": 20,
+    "votos": 89
+  },
+  {
+    "id": 11,
+    "provincia": "Abruzzi",
+    "partido": "Funk and Sons",
+    "porcentaje": 42,
+    "votos": 90
+  },
+  {
+    "id": 12,
+    "provincia": "Abruzzi",
+    "partido": "Schuppe Group",
+    "porcentaje": 87,
+    "votos": 46
+  },
+  {
+    "id": 13,
+    "provincia": "Abruzzi",
+    "partido": "Herman, Gutmann and Koch",
+    "porcentaje": 82,
+    "votos": 41
+  },
+  {
+    "id": 14,
+    "provincia": "Abruzzi",
+    "partido": "Rodriguez, Kovacek and Stamm",
+    "porcentaje": 51,
+    "votos": 8
+  },
+  {
+    "id": 15,
+    "provincia": "Abruzzi",
+    "partido": "Maggio and Sons",
+    "porcentaje": 35,
+    "votos": 86
+  },
+  {
+    "id": 16,
+    "provincia": "Abruzzi",
+    "partido": "Nienow Group",
+    "porcentaje": 18,
+    "votos": 95
+  },
+  {
+    "id": 17,
+    "provincia": "Abruzzi",
+    "partido": "Brown, Anderson and Bednar",
+    "porcentaje": 3,
+    "votos": 99
+  },
+  {
+    "id": 18,
+    "provincia": "Abruzzi",
+    "partido": "Stark, Schmeler and Block",
+    "porcentaje": 44,
+    "votos": 44
+  },
+  {
+    "id": 19,
+    "provincia": "Abruzzi",
+    "partido": "Toy, Huel and Towne",
+    "porcentaje": 35,
+    "votos": 67
+  },
+  {
+    "id": 20,
+    "provincia": "Abruzzi",
+    "partido": "Flatley and Sons",
+    "porcentaje": 62,
+    "votos": 2
+  },
+  {
+    "id": 21,
+    "provincia": "Abruzzi",
+    "partido": "Effertz-Hartmann",
+    "porcentaje": 71,
+    "votos": 3
+  },
+  {
+    "id": 22,
+    "provincia": "Abruzzi",
+    "partido": "Lowe, Kassulke and Bogisich",
+    "porcentaje": 91,
+    "votos": 60
+  },
+  {
+    "id": 23,
+    "provincia": "Abruzzi",
+    "partido": "Pfannerstill Group",
+    "porcentaje": 70,
+    "votos": 1
+  },
+  {
+    "id": 24,
+    "provincia": "Abruzzi",
+    "partido": "Mann, Kerluke and Schmidt",
+    "porcentaje": 93,
+    "votos": 71
+  }
+]

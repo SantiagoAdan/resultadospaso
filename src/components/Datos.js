@@ -20,7 +20,7 @@ export default function Datos() {
   return (
     <div className="container" align="center"><div class="dropdown">
     <hr />
-    <p className="display-6">PARTIDOS GANADORES </p>
+    <p className="display-6">PARTIDOS GANADORES LEGISLATIVAS 2021 </p>
     <hr />
   </div>
       <div className="row">
