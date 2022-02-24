@@ -1,215 +1,215 @@
 import React from "react";
-import { useState } from "react";
-import { Component } from "react/cjs/react.production.min";
+import { useState, useEffect } from "react";
 import Footer from "./components/Footer";
 import Navbar from "./components/Navbar";
 import "./App.css";
 import MaterialTable from "material-table";
-import AddBox from "@material-ui/icons/AddBox";
-import ArrowDownward from "@material-ui/icons/ArrowDownward";
+import axios from "axios";
+import { Modal, TextField, Button } from "@material-ui/core";
+import { makeStyles } from "@material-ui/core/styles";
+
+const columnas = [
+  {
+    title: "Provincia",
+    field: "provincia",
+  },
+  {
+    title: "Partido",
+    field: "partido",
+  },
+  {
+    title: "Porcentaje",
+    field: "porcentaje",
+  },
+  {
+    title: "Votos",
+    field: "votos",
+    type: "numeric",
+  },
+];
+
+const baseUrl = "http://localhost:3002/resultados";
+
+const useStyles = makeStyles((theme) => ({
+  modal: {
+    position: "absolute",
+    width: 400,
+    backgroundColor: theme.palette.background.paper,
+    border: "2px solid #000",
+    boxShadow: theme.shadows[5],
+    padding: theme.spacing(2, 4, 3),
+    top: "50%",
+    left: "50%",
+    transform: "translate(-50%, -50%)",
+  },
+  iconos: {
+    cursor: "pointer",
+  },
+  inputMaterial: {
+    width: "100%",
+  },
+}));
 
 function Datos() {
-  const columnas = [
-    {
-      title: "Provincia",
-      field: "provincia",
-    },
-    {
-      title: "Partido",
-      field: "partido",
-    },
-    {
-      title: "Porcentaje",
-      field: "porcentaje",
-    },
-    {
-      title: "Votos",
-      field: "votos",
-      type: "numeric",
-    },
-  ];
+  const styles = useStyles();
+  const [data, setData] = useState([]);
+  const [ModalInsertar, setModalInsertar] = useState(false);
+  const [ModalEditar, setModalEditar] = useState(false);
+  const [provinciaSeleccionada, setProvinciaSeleccionada] = useState({
+    id: "",
+    partido: "",
+    porcentaje: "",
+    provincia: "",
+    votos: "",
+  });
 
-  const data = [
-    {
-      id: 1,
-      provincia: "CABA",
-      partido: "JUNTOS POR EL CAMBIO",
-      porcentaje: "47,01%",
-      votos: 15,
-    },
-    {
-      id: 2,
-      provincia: "BUENOS AIRES",
-      partido: "JUNTOS POR EL CAMBIO",
-      porcentaje: "39,81%",
-      votos: 44,
-    },
-    {
-      id: 3,
-      provincia: "SANTA FE",
-      partido: "JUNTOS POR EL CAMBIO",
-      porcentaje: "40,23%",
-      votos: 38,
-    },
-    {
-      id: 4,
-      provincia: "CORDOBA",
-      partido: "JUNTOS POR EL CAMBIO",
-      porcentaje: "54.04%",
-      votos: 87,
-    },
-    {
-      id: 5,
-      provincia: "MENDOZA",
-      partido: "JUNTOS POR EL CAMBIO",
-      porcentaje: "49,54%",
-      votos: 77,
-    },
-    {
-      id: 6,
-      provincia: "ENTRE RIOS",
-      partido: "JUNTOS POR EL CAMBIO",
-      porcentaje: "54,52%",
-      votos: 51,
-    },
-    {
-      id: 7,
-      provincia: "CATAMARCA",
-      partido: "FRENTE DE TODOS",
-      porcentaje: "50,65%",
-      votos: 15,
-    },
-    {
-      id: 8,
-      provincia: "CORRIENTES",
-      partido: "ECO+VAMOS CORRIENTES",
-      porcentaje: "58,91%",
-      votos: 99,
-    },
-    {
-      id: 9,
-      provincia: "CHUBUT",
-      partido: "JUNTOS POR EL CAMBIO",
-      porcentaje: "37,95%",
-      votos: 94,
-    },
-    {
-      id: 10,
-      provincia: "CHACO",
-      partido: "FRENTE DE TODOS",
-      porcentaje: "44,33%",
-      votos: 89,
-    },
-    {
-      id: 11,
-      provincia: "FORMOSA",
-      partido: "FRENTE DE TODOS",
-      porcentaje: "57,81%",
-      votos: 90,
-    },
-    {
-      id: 12,
-      provincia: "JUJUY",
-      partido: "JUNTOS POR EL CAMBIO",
-      porcentaje: "49,05%",
-      votos: 46,
-    },
-    {
-      id: 13,
-      provincia: "LA PAMPA",
-      partido: "JUNTOS POR EL CAMBIO",
-      porcentaje: "48.01%",
-      votos: 41,
-    },
-    {
-      id: 14,
-      provincia: "LA RIOJA",
-      partido: "FRENTE DE TODOS",
-      porcentaje: "56,06%",
-      votos: 8,
-    },
-    {
-      id: 15,
-      provincia: "MISIONES",
-      partido: "JUNTOS POR EL CAMBIO",
-      porcentaje: "40,91%",
-      votos: 86,
-    },
-    {
-      id: 16,
-      provincia: "NEUQUEN",
-      partido: "MOVIMIENTO POPULAR NEUQUENINO",
-      porcentaje: "29,42%",
-      votos: 95,
-    },
-    {
-      id: 17,
-      provincia: "RIO NEGRO",
-      partido: "JUNTOS SOMOS RIO NEGRO",
-      porcentaje: "37,27%",
-      votos: 99,
-    },
-    {
-      id: 18,
-      provincia: "SALTA",
-      partido: "FRENTE DE TODOS",
-      porcentaje: "32,37%",
-      votos: 44,
-    },
-    {
-      id: 19,
-      provincia: "SAN JUAN",
-      partido: "FRENTE DE TODOS",
-      porcentaje: "43,46%",
-      votos: 67,
-    },
-    {
-      id: 20,
-      provincia: "SAN LUIS",
-      partido: "UNIDOS POR SAN LUIS",
-      porcentaje: "46,07%",
-      votos: 2,
-    },
-    {
-      id: 21,
-      provincia: "SANTA CRUZ",
-      partido: "UNIDOS POR SAN LUIS",
-      porcentaje: "46,07%",
-      votos: 3,
-    },
-    {
-      id: 22,
-      provincia: "SANTA CRUZ",
-      partido: "CAMBIA SANTA CRUZ",
-      porcentaje: "35,02%",
-      votos: 60,
-    },
-    {
-      id: 23,
-      provincia: "SANTIAGO DEL ESTERO",
-      partido: "FRENTE CIVICO POR SANTIAGO",
-      porcentaje: "63,50%",
-      votos: 1,
-    },
-    {
-      id: 24,
-      provincia: "TIERRA DEL FUEGO",
-      partido: "FRENTE DE TODOS",
-      porcentaje: "39,67%",
-      votos: 1,
-    },
-    {
-      id: 25,
-      provincia: "TUCUMAN",
-      partido: "FRENTE DE TODOS",
-      porcentaje: "42,15%",
-      votos: 71,
-    },
-  ];
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setProvinciaSeleccionada((prevState) => ({
+      ...prevState,
+      [name]: value,
+    }));
+  };
+
+  const peticionesGet = async () => {
+    await axios.get(baseUrl).then((response) => {
+      setData(response.data);
+    });
+  };
+
+  const peticionPost = async () => {
+    await axios.post(baseUrl, provinciaSeleccionada).then((response) => {
+      setData(data.concat(response.data));
+      abrirCerrarModalInsertar();
+    });
+  };
+
+  const peticionPut = async () => {
+    await axios.put(baseUrl+"/"+provinciaSeleccionada.id, provinciaSeleccionada)
+    .then((response) => {
+      var dataNueva = data;
+      dataNueva.map(provincia=>{
+        if(provincia.id===provinciaSeleccionada.id){
+          provincia.provincia=provinciaSeleccionada.provincia;
+          provincia.partido=provinciaSeleccionada.partido;
+          provincia.porcentaje=provinciaSeleccionada.porcentaje;
+          provincia.votos=provinciaSeleccionada.votos;
+
+        }
+      });
+      setData(dataNueva);
+      abrirCerrarModalEditar();
+    }).catch(error=>{
+      console.log(error);
+    });
+  };
+
+  const seleccionarProvincia = (provincia, caso) => {
+    setProvinciaSeleccionada(provincia);
+    caso === "Editar" && abrirCerrarModalEditar();
+  };
+
+  const abrirCerrarModalInsertar = () => {
+    setModalInsertar(!ModalInsertar);
+  };
+
+  const abrirCerrarModalEditar = () => {
+    setModalEditar(!ModalEditar);
+  };
+
+  useEffect(() => {
+    peticionesGet();
+  }, []);
+
+  const bodyInsertar = (
+    <div className={styles.modal}>
+      <h3>Agregar Nuevo Resultado</h3>
+      <TextField
+        className={styles.inputMaterial}
+        label="Provincia"
+        name="provincia"
+        onChange={handleChange}
+      ></TextField>
+      <br />
+      <TextField
+        className={styles.inputMaterial}
+        label="Partido"
+        name="partido"
+        onChange={handleChange}
+      ></TextField>
+      <br />
+      <TextField
+        className={styles.inputMaterial}
+        label="Porsentaje"
+        name="porcentaje"
+        onChange={handleChange}
+      ></TextField>
+      <br />
+      <TextField
+        className={styles.inputMaterial}
+        label="Votos"
+        name="votos"
+        onChange={handleChange}
+      ></TextField>
+      <br />
+      <div align="right">
+        <Button color="primary" onClick={() => peticionPost()}>
+          Insertar
+        </Button>
+        <Button onClick={() => abrirCerrarModalInsertar()}>Cancelar</Button>
+      </div>
+    </div>
+  );
+  const bodyEditar = (
+    <div className={styles.modal}>
+      <h3>Editar Resultado</h3>
+      <TextField
+        className={styles.inputMaterial}
+        label="Provincia"
+        name="provincia"
+        onChange={handleChange}
+        value={provinciaSeleccionada && provinciaSeleccionada.provincia}
+      ></TextField>
+      <br />
+      <TextField
+        className={styles.inputMaterial}
+        label="Partido"
+        name="partido"
+        onChange={handleChange}
+        value={provinciaSeleccionada && provinciaSeleccionada.partido}
+      ></TextField>
+      <br />
+      <TextField
+        className={styles.inputMaterial}
+        label="Porsentaje"
+        name="porcentaje"
+        onChange={handleChange}
+        value={provinciaSeleccionada && provinciaSeleccionada.porcentaje}
+      ></TextField>
+      <br />
+      <TextField
+        className={styles.inputMaterial}
+        label="Votos"
+        name="votos"
+        onChange={handleChange}
+        value={provinciaSeleccionada && provinciaSeleccionada.votos}
+      ></TextField>
+      <br />
+      <div align="right">
+        <Button color="primary">
+          Insertar
+        </Button>
+        <Button onClick={() => abrirCerrarModalInsertar()}>Cancelar</Button>
+      </div>
+    </div>
+  );
 
   return (
     <div>
       <Navbar />
+      <Button onClick={() => abrirCerrarModalInsertar()}>
+        Insertar Resultado
+      </Button>
       <MaterialTable
         columns={columnas}
         data={data}
@@ -218,24 +218,35 @@ function Datos() {
           {
             icon: "edit",
             tooltip: "editar resultado",
-            onClick: (event, rowData)=>alert('Has presionado editar resultado: '+rowData.provincia)
+            onClick: (event, rowData) =>
+              seleccionarProvincia(rowData, "Editar"),
           },
           {
             icon: "delete",
             tooltip: "Eliminar resultado",
-            onClick: (event, rowData)=>window.confirm('Estas seguro que quieres eliminar el resultado de '+rowData.provincia+'?')
-          }
+            onClick: (event, rowData) =>
+              window.confirm(
+                "Estas seguro que quieres eliminar el resultado de " +
+                  rowData.provincia +
+                  "?"
+              ),
+          },
         ]}
         options={{
-          actionsColumnIndex:-1
+          actionsColumnIndex: -1,
         }}
         localization={{
-          header:{
-            actions:'Acciones'
-          }
+          header: {
+            actions: "Acciones",
+          },
         }}
       />
-
+      <Modal open={ModalInsertar} onClose={abrirCerrarModalInsertar}>
+        {bodyInsertar}
+      </Modal>
+      <Modal open={ModalEditar} onClose={abrirCerrarModalEditar}>
+        {bodyEditar}
+      </Modal>
       <Footer />
     </div>
   );
