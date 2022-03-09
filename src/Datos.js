@@ -29,6 +29,7 @@ const columnas = [
   },
 ];
 
+
 const baseUrl = "http://localhost:3002/resultados";
 
 const useStyles = makeStyles((theme) => ({
@@ -65,36 +66,32 @@ function Datos() {
     votos: "",
   });
 
-  const handleChange = (e) => {
+  const handleChange =e=> {
     const { name, value } = e.target;
-    setProvinciaSeleccionada((prevState) => ({
+    setProvinciaSeleccionada(prevState=>({
       ...prevState,
       [name]: value
     }));
-  };
+  }
 
   const peticionesGet = async () => {
-    await axios
-      .get(baseUrl)
-      .then((response) => {
-        setData(response.data);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  };
+    await axios.get(baseUrl)
+    .then(response=>{
+      setData(response.data);
+    }).catch(error=>{
+      console.log(error);
+    })
+  }
 
   const peticionPost = async () => {
-    await axios
-      .post(baseUrl, provinciaSeleccionada)
-      .then((response) => {
-        setData(data.concat(response.data));
-        abrirCerrarModalInsertar();
-      })
-      .catch(error => {
-        console.log(error);
-      });
-  };
+   await axios.post(baseUrl, provinciaSeleccionada)
+   .then(response=>{
+     setData(data.concat(response.data));
+     abrirCerrarModalInsertar();
+   }).catch(error=>{
+     console.log(error);
+   })
+  }
 
   const peticionPut=async()=>{
     await axios.put(baseUrl+"/"+provinciaSeleccionada.id, provinciaSeleccionada)
@@ -115,23 +112,22 @@ function Datos() {
     })
   }
 
-  const peticionDelete = async () => {
-    await axios
-      .delete(baseUrl + "/" + provinciaSeleccionada.id)
-      .then((response) => {
-        setData(
-          data.filter((provincia) => provincia.id !== provinciaSeleccionada.id)
-        );
-        abrirCerrarModalEliminar();
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  };
+const peticionDelete=async() =>{
+  await axios.delete(baseUrl+"/"+provinciaSeleccionada.id)
+  .then(response=>{
+    setData(data.filter(provincia=>provincia.id!==provinciaSeleccionada.id));
+    abrirCerrarModalEliminar();
+  }).catch(error=>{
+    console.log(error);
+  })
+}
+
 
   const seleccionarProvincia = (provincia, caso) => {
     setProvinciaSeleccionada(provincia);
-    caso === "Editar" && abrirCerrarModalEditar();
+    (caso === "Editar")?abrirCerrarModalEditar()
+    :
+    abrirCerrarModalEliminar()
   };
 
   const abrirCerrarModalInsertar = () => {
@@ -226,9 +222,9 @@ function Datos() {
       <br />
       <div align="right">
         <Button color="primary" onClick={() => peticionPut}>
-          Insertar
+         Editar
         </Button>
-        <Button onClick={() => abrirCerrarModalInsertar()}>Cancelar</Button>
+        <Button onClick={() => abrirCerrarModalEditar()}>Cancelar</Button>
       </div>
     </div>
   );
@@ -254,6 +250,7 @@ function Datos() {
       <Button onClick={() => abrirCerrarModalInsertar()}>
         Insertar Resultado
       </Button>
+      <br /><br />
       <MaterialTable
         columns={columnas}
         data={data}
@@ -269,11 +266,7 @@ function Datos() {
             icon: "delete",
             tooltip: "Eliminar resultado",
             onClick: (event, rowData) =>
-              window.confirm(
-                "Estas seguro que quieres eliminar el resultado de " +
-                  rowData.provincia +
-                  "?"
-              ),
+            seleccionarProvincia(rowData, "Eliminar")
           },
         ]}
         options={{
