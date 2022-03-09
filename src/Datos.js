@@ -104,6 +104,7 @@ function Datos() {
     });
   };
 
+
   const seleccionarProvincia = (provincia, caso) => {
     setProvinciaSeleccionada(provincia);
     caso === "Editar" && abrirCerrarModalEditar();
