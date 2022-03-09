@@ -8,6 +8,7 @@ import axios from "axios";
 import { Modal, TextField, Button } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 
+
 const columnas = [
   {
     title: "Provincia",
@@ -55,6 +56,7 @@ function Datos() {
   const [data, setData] = useState([]);
   const [ModalInsertar, setModalInsertar] = useState(false);
   const [ModalEditar, setModalEditar] = useState(false);
+  const [ModalEliminar, setModalEliminar] = useState(false);
   const [provinciaSeleccionada, setProvinciaSeleccionada] = useState({
     id: "",
     partido: "",
@@ -67,43 +69,65 @@ function Datos() {
     const { name, value } = e.target;
     setProvinciaSeleccionada((prevState) => ({
       ...prevState,
-      [name]: value,
+      [name]: value
     }));
   };
 
   const peticionesGet = async () => {
-    await axios.get(baseUrl).then((response) => {
-      setData(response.data);
-    });
+    await axios
+      .get(baseUrl)
+      .then((response) => {
+        setData(response.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   };
 
   const peticionPost = async () => {
-    await axios.post(baseUrl, provinciaSeleccionada).then((response) => {
-      setData(data.concat(response.data));
-      abrirCerrarModalInsertar();
-    });
+    await axios
+      .post(baseUrl, provinciaSeleccionada)
+      .then((response) => {
+        setData(data.concat(response.data));
+        abrirCerrarModalInsertar();
+      })
+      .catch(error => {
+        console.log(error);
+      });
   };
 
-  const peticionPut = async () => {
+  const peticionPut=async()=>{
     await axios.put(baseUrl+"/"+provinciaSeleccionada.id, provinciaSeleccionada)
-    .then((response) => {
-      var dataNueva = data;
+    .then(response=>{
+      var dataNueva= data;
       dataNueva.map(provincia=>{
-        if(provincia.id===provinciaSeleccionada.id){
-          provincia.provincia=provinciaSeleccionada.provincia;
-          provincia.partido=provinciaSeleccionada.partido;
-          provincia.porcentaje=provinciaSeleccionada.porcentaje;
-          provincia.votos=provinciaSeleccionada.votos;
-
+        if(provincia.id === provinciaSeleccionada.id) {
+          provincia.provincia = provinciaSeleccionada.provincia;
+          provincia.partido = provinciaSeleccionada.partido;
+          provincia.porcentaje = provinciaSeleccionada.porcentaje;
+          provincia.votos = provinciaSeleccionada.votos;
         }
       });
       setData(dataNueva);
       abrirCerrarModalEditar();
     }).catch(error=>{
       console.log(error);
-    });
-  };
+    })
+  }
 
+  const peticionDelete = async () => {
+    await axios
+      .delete(baseUrl + "/" + provinciaSeleccionada.id)
+      .then((response) => {
+        setData(
+          data.filter((provincia) => provincia.id !== provinciaSeleccionada.id)
+        );
+        abrirCerrarModalEliminar();
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
 
   const seleccionarProvincia = (provincia, caso) => {
     setProvinciaSeleccionada(provincia);
@@ -116,6 +140,10 @@ function Datos() {
 
   const abrirCerrarModalEditar = () => {
     setModalEditar(!ModalEditar);
+  };
+
+  const abrirCerrarModalEliminar = () => {
+    setModalEliminar(!ModalEliminar);
   };
 
   useEffect(() => {
@@ -197,10 +225,25 @@ function Datos() {
       ></TextField>
       <br />
       <div align="right">
-        <Button color="primary">
+        <Button color="primary" onClick={() => peticionPut}>
           Insertar
         </Button>
         <Button onClick={() => abrirCerrarModalInsertar()}>Cancelar</Button>
+      </div>
+    </div>
+  );
+
+  const bodyEliminar = (
+    <div className={styles.modal}>
+      <p>
+        Estás seguro que deseas eliminar al resultado?{" "}
+        <b>{provinciaSeleccionada && provinciaSeleccionada.provincia}</b>?{" "}
+      </p>
+      <div align="right">
+        <Button color="secondary" onClick={() => peticionDelete()}>
+          Sí
+        </Button>
+        <Button onClick={() => abrirCerrarModalEliminar()}>No</Button>
       </div>
     </div>
   );
@@ -248,6 +291,10 @@ function Datos() {
       <Modal open={ModalEditar} onClose={abrirCerrarModalEditar}>
         {bodyEditar}
       </Modal>
+      <Modal open={ModalEliminar} onClose={abrirCerrarModalEliminar}>
+        {bodyEliminar}
+      </Modal>
+
       <Footer />
     </div>
   );
